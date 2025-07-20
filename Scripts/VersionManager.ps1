@@ -14,6 +14,8 @@ function New-Tag
 	$version = Get-CurrentVersion
 	$patch = Get-NewPatch
 	$prefix = ""
+	
+	Write-Host "Current version is: $version And new patch is: $patch"
 		
 	# Release branch needs to increase version and add "Beta-" prefix
 	if ($Branch -eq "release")
