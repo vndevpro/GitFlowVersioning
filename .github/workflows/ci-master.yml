@@ -1,7 +1,7 @@
 name: CI on Master
 on:
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
   pull_request:
     branches: [ master ]
     types: [ closed ]  # Trigger on PR close
@@ -10,6 +10,7 @@ on:
 jobs:
   create-new-tag:
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
         with:
