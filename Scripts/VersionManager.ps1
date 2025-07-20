@@ -1,6 +1,39 @@
 #################################
 # This script contains funtions to create git tags following GitFlow
 #################################
+function New-Tag
+{
+	param (
+        [Parameter(Mandatory=$true)]
+        [string]$Branch
+    )
+	
+	$version = Get-CurrentVersion
+	$patch = Get-NewPatch
+	$prefix = ""
+		
+	if ($Branch -eq "release")
+	{
+		$version = ([decimal]$currentVersion + 0.1).ToString()
+		$prefix = "Beta-"
+	}
+	if ($Branch -eq "develop")
+	{
+		$version = ([decimal]$currentVersion + 0.1).ToString()
+		$prefix = "Dev-"
+	}
+	if ($Branch -eq "hotfix")
+	{
+		$version = ([decimal]$currentVersion + 0.1).ToString()
+		$prefix = "HF-"
+	}
+	
+	$tag = "v$version.$prefix$patch"
+	
+	Invoke-Expression "git tag $tag"
+	
+	return $tag
+}
 
 function Get-CurrentVersion
 {	
@@ -35,17 +68,17 @@ function Get-CurrentVersion
 
 function Get-NewPatch
 {
-	 param (
+	param (
         [Parameter(Mandatory=$false)]
         [string]$Prefix = ""
     )
 	
-	if ($Prefix -ne "")
+	if ($Prefix -eq "")
 	{
-		return $Prefix + "-" + (Get-Date).ToString("yyMMddhhmmss")
+		return (Get-Date).ToString("yyMMddhhmmss")
 	}
 	
-	return (Get-Date).ToString("yyMMddhhmmss")
+	return $Prefix + "-" + (Get-Date).ToString("yyMMddhhmmss")
 }
 
 function Get-NextVersion

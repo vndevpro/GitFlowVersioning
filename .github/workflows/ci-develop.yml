@@ -1,0 +1,17 @@
+name: CI on Develop branch
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  create-new-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create new tag
+        shell: pwsh
+        run: |
+         . ./Scripts/VersionManager.ps1
+         New-Tag -Branch "develop"
+         
