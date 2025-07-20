@@ -14,17 +14,16 @@ function New-Tag
 		
 	if ($Branch -eq "release")
 	{
-		$version = ([decimal]$currentVersion + 0.1).ToString()
+		$version = ([decimal]$version + 0.1).ToString()
 		$prefix = "Beta-"
 	}
 	if ($Branch -eq "develop")
 	{
-		$version = ([decimal]$currentVersion + 0.1).ToString()
+		$version = ([decimal]$version + 0.1).ToString()
 		$prefix = "Dev-"
 	}
 	if ($Branch -eq "hotfix")
 	{
-		$version = ([decimal]$currentVersion + 0.1).ToString()
 		$prefix = "HF-"
 	}
 	
