@@ -15,4 +15,4 @@ jobs:
         shell: pwsh
         run: |
          . ./Scripts/VersionManager.ps1
-         New-Tag -Branch "master"
+         New-Tag -Branch "master" -SourceBranch "${{ github.head_ref }}"

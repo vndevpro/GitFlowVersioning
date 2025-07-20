@@ -5,26 +5,40 @@ function New-Tag
 {
 	param (
         [Parameter(Mandatory=$true)]
-        [string]$Branch
+        [string]$Branch,
+		
+		[Parameter(Mandatory=$false)]
+        [string]$SourceBranch = ""		
     )
 	
 	$version = Get-CurrentVersion
 	$patch = Get-NewPatch
 	$prefix = ""
 		
+	# Release branch needs to increase version and add "Beta-" prefix
 	if ($Branch -eq "release")
 	{
 		$version = ([decimal]$version + 0.1).ToString()
 		$prefix = "Beta-"
 	}
+
+	# Develop branch needs to increase version and add "Dev-" prefix
 	if ($Branch -eq "develop")
 	{
 		$version = ([decimal]$version + 0.1).ToString()
 		$prefix = "Dev-"
 	}
+	
+	# Hotfix branch just needs to add "HF-" prefix
 	if ($Branch -eq "hotfix")
 	{
 		$prefix = "HF-"
+	}
+	
+	# Increase version if merge from "release" branch to "master" branch
+	if ($Branch -eq "master" -and $SourceBranch -eq "release")
+	{
+		$version = ([decimal]$version + 0.1).ToString()
 	}
 	
 	$tag = "v$version.$prefix$patch"
