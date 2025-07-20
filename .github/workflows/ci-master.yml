@@ -1,7 +1,7 @@
-name: CI on Develop
+name: CI on Master
 on:
   push:
-    branches: [ develop ]
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -13,4 +13,4 @@ jobs:
         shell: pwsh
         run: |
          . ./Scripts/VersionManager.ps1
-         New-Tag -Branch "develop"
+         New-Tag -Branch "master"

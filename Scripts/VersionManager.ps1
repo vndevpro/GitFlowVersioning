@@ -31,6 +31,7 @@ function New-Tag
 	$tag = "v$version.$prefix$patch"
 	
 	Invoke-Expression "git tag $tag"
+	Invoke-Expression "git push origin $tag"
 	
 	return $tag
 }
