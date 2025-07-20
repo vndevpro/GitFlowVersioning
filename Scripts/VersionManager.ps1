@@ -78,12 +78,6 @@ function Get-NewPatch
 	return $Prefix + "-" + (Get-Date).ToString("yyMMddhhmmss")
 }
 
-function Get-NextVersion
-{
-	$currentVersion = Get-CurrentVersion
-	return ([decimal]$currentVersion + 0.1).ToString()
-}
-
 function Get-GitTags
 {
 	$tags = Invoke-Expression "git tag --list"
