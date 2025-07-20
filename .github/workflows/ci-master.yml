@@ -2,6 +2,9 @@ name: CI on Master
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    types: [ closed ]  # Trigger on PR close
   workflow_dispatch:
 
 jobs:
