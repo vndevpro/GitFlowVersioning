@@ -14,5 +14,5 @@ jobs:
       - name: Create and Push new tag
         shell: pwsh
         run: |
-         . ./Scripts/VersionManager.ps1
+         . ./Scripts/VersionManagerIncremental.ps1
          New-Tag -Branch "develop"

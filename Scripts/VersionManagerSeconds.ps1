@@ -1,5 +1,5 @@
 #################################
-# This script contains funtions to create git tags following GitFlow
+# This script VersionManagerSeconds.ps1 contains funtions to create git tags following GitFlow
 #################################
 function New-Tag
 {
@@ -13,7 +13,7 @@ function New-Tag
 	
 	$version = Get-CurrentVersion
 	$patch = Get-NewPatch
-	$prefix = ""
+	$postfix = ""
 	
 	Write-Host "Current version is: $version And new patch is: $patch"
 		
@@ -21,20 +21,20 @@ function New-Tag
 	if ($Branch -eq "release")
 	{
 		$version = ([decimal]$version + 0.1).ToString()
-		$prefix = "Beta-"
+		$postfix = "-beta"
 	}
 
 	# Develop branch needs to increase version and add "Dev-" prefix
 	if ($Branch -eq "develop")
 	{
 		$version = ([decimal]$version + 0.1).ToString()
-		$prefix = "Dev-"
+		$postfix = "-dev"
 	}
 	
 	# Hotfix branch just needs to add "HF-" prefix
 	if ($Branch -eq "hotfix")
 	{
-		$prefix = "HF-"
+		$postfix = "-hf"
 	}
 	
 	# Increase version if merge from "release" branch to "master" branch
@@ -43,7 +43,7 @@ function New-Tag
 		$version = ([decimal]$version + 0.1).ToString()
 	}
 	
-	$tag = "v$version.$prefix$patch"
+	$tag = "v$version.$patch+$postfix"
 	
 	Invoke-Expression "git tag $tag"
 	Invoke-Expression "git push origin $tag"
@@ -81,17 +81,7 @@ function Get-CurrentVersion
 
 function Get-NewPatch
 {
-	param (
-        [Parameter(Mandatory=$false)]
-        [string]$Prefix = ""
-    )
-	
-	if ($Prefix -eq "")
-	{
-		return (Get-Date).ToString("yyMMddhhmmss")
-	}
-	
-	return $Prefix + "-" + (Get-Date).ToString("yyMMddhhmmss")
+	return (Get-Date).ToString("yyMMddhhmmss")
 }
 
 function Get-GitTags
